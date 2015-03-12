@@ -7,3 +7,4 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 Test.create("name"=>"asdasdasdasd")
+Video.create name:'Family Guy', description:'asdasdsda', cover_small_url:'family_guy.jpg'
