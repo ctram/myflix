@@ -1,10 +1,8 @@
 
-- @categories.each do |c|
-  <br>
-  %h1 #{c.name}
-  <br>
-  - c.videos.each do |v|
+- @categories.each do |category|
+  %br
+  %h1 #{category.name}
+  %br
+  - category.videos.each do |video|
     = link_to do
-      - image_tag v.cover_small_url
-    <br>
-  <hr>
+      - image_tag video.cover_small_url

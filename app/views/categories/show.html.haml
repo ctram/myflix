@@ -1,0 +1,8 @@
+%section.content.clearfix
+  %section.genre
+    %header.clearfix
+      %h1= @category.name
+      %hr
+      - @category.videos.each do |video|
+        = link_to() do
+          - image_tag video.cover_small_url
