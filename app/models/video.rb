@@ -6,8 +6,10 @@ class Video < ActiveRecord::Base
 
   def self.search_by_title term
     matches = []
-    Videos.all.each do |video|
+    Video.all.each do |video|
+      matches << video if /#{term}/i =~ video.name
     end
+    matches.sort_by{|video| video.name}
   end
 
 end

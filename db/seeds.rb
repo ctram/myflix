@@ -12,6 +12,9 @@ Category.create(name:'Action')
 Category.create(name:'Sci-Fi')
 
 Video.create name:'Monk', description:'asdasdsda', cover_small_url:'monk_small.jpg', category_id:1
+
 Video.create name:'Family Guy', description:'asdasdsda', cover_small_url:'family_guy.jpg',category_id:2
+
 Video.create name:'Futurama', description:'asdasdsda',  cover_small_url:'futurama.jpg', category_id:3
+
 Video.create name:'South Park', description:'asdasdsda', cover_small_url:'south_park.jpg', category_id:1
