@@ -1,44 +1,43 @@
+= render 'shared/errors', obj:@user
+%section.register.container
+  .row
+    .col-sm-10.col-sm-offset-1
+      .form-horizontal
+        = form_for @user do |f|
+          %header
+            %h1
+              Register
+          %fieldset
+            .form-group
+              %label.control-label.col-sm-2
+                = f.label :name_first, {class:'class=control-label col-sm-2'} do
+                  - "First Name"
+              .col-sm-6
+                = f.text_field :name_first, {class:'form-control'}
 
-%section.content.clearfix
-  %section.register.container
-    .row
-      .col-sm-10.col-sm-offset-1
-        .form-horizontal
-          = form_for @user do |f|
-            %header
-              %h1
-                Register
-            %fieldset
-              .form-group
-                %label.control-label.col-sm-2
-                  = f.label :name_first, {class:'class=control-label col-sm-2'} do
-                    - "First Name"
-                .col-sm-6
-                  = f.text_field :name_first, {class:'form-control'}
+            .form-group
+              %label.control-label.col-sm-2
+                = f.label :name_last, {class:'class=control-label col-sm-2'} do
+                  - 'Last Name'
+              .col-sm-6
+                = f.text_field :name_last, {class:'form-control'}
 
-              .form-group
-                %label.control-label.col-sm-2
-                  = f.label :name_last, {class:'class=control-label col-sm-2'} do
-                    - 'Last Name'
-                .col-sm-6
-                  = f.text_field :name_last, {class:'form-control'}
+            .form-group
+              %label.control-label.col-sm-2
+                = f.label :email, {class:'class=control-label col-sm-2'}
+              .col-sm-6
+                = f.email_field :email, {class:'form-control'}
 
-              .form-group
-                %label.control-label.col-sm-2
-                  = f.label :email, {class:'class=control-label col-sm-2'}
-                .col-sm-6
-                  = f.email_field :email, {class:'form-control'}
+            .form-group
+              %label.control-label.col-sm-2
+                = f.label :password,  {class:'class=control-label col-sm-2'}
+              .col-sm-6
+                = f.password_field :password, {class:'form-control'}
 
-              .form-group
-                %label.control-label.col-sm-2
-                  = f.label :password,  {class:'class=control-label col-sm-2'}
-                .col-sm-6
-                  = f.password_field :password, {class:'form-control'}
-
-              .form-group
-                %label.control-label.col-sm-2
-                  = f.label :password_confirmation,  {class:'class=control-label col-sm-2'}
-                .col-sm-6
-                  = f.password_field :password_confirmation, {class:'form-control'}
-            %fieldset.form-group.action
-              = f.submit 'Register', {class:'btn btn-default'}
+            .form-group
+              %label.control-label.col-sm-2
+                = f.label :password_confirmation,  {class:'class=control-label col-sm-2'}
+              .col-sm-6
+                = f.password_field :password_confirmation, {class:'form-control'}
+          %fieldset.form-group.action
+            = f.submit 'Register', {class:'btn btn-default'}

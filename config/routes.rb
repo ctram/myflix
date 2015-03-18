@@ -2,7 +2,7 @@ Myflix::Application.routes.draw do
   get 'ui(/:action)', controller: 'ui'
 
   get '/home' => 'videos#index', as: 'home'
-  get '/' => 'videos#index'
+  get '/' => 'static_pages#front'
   get '/front' => 'static_pages#front'
   get '/register' => 'users#new', as: 'register'
   get '/sign-in' => 'sessions#new', as: 'sign_in'

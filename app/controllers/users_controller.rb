@@ -4,17 +4,13 @@ class UsersController < ApplicationController
   end
 
   def create
-    # TODO: create user
     @user = User.new(params_user)
     if @user.save
       flash[:notice] = 'Successfully registered!'
       log_in(@user)
       redirect_to home_path
-      binding.pry
     else
-      flash[:error] = 'Something went wrong. Please check your fields'
       render :new
-      binding.pry
     end
   end
 
