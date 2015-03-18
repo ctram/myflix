@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  before_action :require_user, only: [:destroy]
+
   def new
     @user = User.new
   end
@@ -18,7 +20,7 @@ class SessionsController < ApplicationController
   def destroy
     session[:id] = nil
     flash[:notice] = 'You are now signed off.'
-    redirect_to videos_path
+    redirect_to front_path
   end
 
 end
