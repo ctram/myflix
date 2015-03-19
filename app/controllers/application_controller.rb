@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
 
   # Checks whether the user is logged into the app. Returns a bool.
   def logged_in?
-    session[:user_id] ? true : false
+    session[:user_id]
   end
 
   def log_in(user)
