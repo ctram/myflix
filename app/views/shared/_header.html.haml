@@ -16,7 +16,7 @@
         %li.dropdown
           %a(href="#" id="dlabel" role="button" data-toggle="dropdown" class="dropdown-toggle" data-target="#")
             - if logged_in?
-              Welcome, #{current_user.name_first} #{current_user.name_last}
+              Welcome, #{current_user.name_first.capitalize} #{current_user.name_last.capitalize}
               %b.caret
               %ul.dropdown-menu(role="menu" aria-labelledby="dlabel")
                 %li

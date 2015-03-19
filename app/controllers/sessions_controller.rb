@@ -3,18 +3,16 @@ class SessionsController < ApplicationController
 
   def new
     redirect_to videos_path if logged_in?
-    @user = User.new
   end
 
   def create
-    user = User.find_by(email: params[:user][:email])
-    if user and user.authenticate(params[:user][:password])
+    user = User.find_by(email: params[:email])
+    if user and user.authenticate(params[:password])
       session[:user_id] = user.id
       flash[:notice] = "You've successfully signed in!"
       redirect_to videos_path
     else
       flash[:error] = "Sorry, there is something wrong with your username or password."
-      @user = User.new
       render :new
     end
   end
@@ -27,5 +25,4 @@ class SessionsController < ApplicationController
 
 end
 
-# TODO: add authentication of the password on the sign in page.
 # TODO: if logged in, user is not able to get to the front page or the sign in page or the register page.
