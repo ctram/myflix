@@ -1,22 +1,22 @@
 %section.sign_in.container
   .row
     .col-sm-10.col-sm-offset-1
-      = form_for @user, url: sessions_path do |f|
+      = form_tag(sessions_path) do
         %fieldset
           %header
             %h1 Sign In
             .form-group
               .row
                 %label.control-label.col-sm-2
-                  = f.label :email
+                  = label_tag :email
                 .col-sm-6
-                  = f.email_field :email, {class:'form-control'}
+                  = email_field_tag :email, '' , {class:'form-control'}
 
             .form-group
               .row
                 %label.control-label.col-sm-2
-                  = f.label :password
+                  = label_tag :password
                 .col-sm-6
-                  = f.password_field :password, {class:'form-control'}
+                  = password_field_tag :password, '', {class:'form-control'}
         %fieldset.form-group.action
-          = f.submit 'Sign in', {class:'btn btn-default'}
+          = submit_tag 'Sign in', {class:'btn btn-default'}

@@ -1,12 +1,12 @@
 %section#top-header.row
   %h1.col-md-2
-    = link_to "MyFLiX"
+    = link_to "MyFliX", front_path
   - if logged_in?
     %ul.col-md-4.clearfix
       %li= link_to "Videos"
       %li= link_to "My Queue"
       %li= link_to "People"
-      
+
     %form.col-md-5.navbar-form(action=search_videos_path)
       .form-group
         %input.form-control(type="text" placeholder="Search for videos here" name='term')
@@ -16,7 +16,7 @@
         %li.dropdown
           %a(href="#" id="dlabel" role="button" data-toggle="dropdown" class="dropdown-toggle" data-target="#")
             - if logged_in?
-              Welcome, #{current_user.name_first} #{current_user.name_last}
+              Welcome, #{current_user.name_first.capitalize} #{current_user.name_last.capitalize}
               %b.caret
               %ul.dropdown-menu(role="menu" aria-labelledby="dlabel")
                 %li
