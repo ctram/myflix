@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   helper_method :logged_in?, :current_user # Give views access to these application controller methods.
 
   def require_user
+    
     if !logged_in?
       flash[:error] = "You must be logged in to do that."
       redirect_to front_path
