@@ -12,6 +12,7 @@ gem 'jquery-rails'
 gem 'pg'
 gem 'bcrypt'
 
+
 group :development do
   gem 'thin'
   gem "better_errors"
@@ -28,6 +29,7 @@ group :test do
   gem 'shoulda'
   gem 'fabrication'
   gem 'database_cleaner', '1.2.0'
+  gem 'faker'
 end
 
 group :production do
