@@ -4,6 +4,7 @@ class Video < ActiveRecord::Base
   validates :name, presence: true
   validates :description, presence:true
 
+  # returns an array of videos
   def self.search_by_title term
     matches = []
     Video.all.each do |video|
@@ -11,8 +12,4 @@ class Video < ActiveRecord::Base
     end
     matches.sort_by{|video| video.name}
   end
-
-
-
-
 end
