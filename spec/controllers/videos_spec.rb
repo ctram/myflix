@@ -1,6 +1,5 @@
 require_relative '../spec_helper'
 
-# TODO: code tests for videos#show and videos#search
 
 describe VideosController do
   context 'with authenticated user' do
@@ -10,7 +9,6 @@ describe VideosController do
       Fabricate(:video)
     end
 
-    # TODO: test that each action renders the appropriate view templates
     describe " GET index" do
       # Going to leave this test here, but NOTE: per Kevin, we should NOT test whether call to a controller's action will render the default template. Why? Because that would be testing something we expect Rails to do by default, instead of testing our CODE. "Test what you own".
       it 'renders the index view template' do
