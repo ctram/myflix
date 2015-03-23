@@ -2,7 +2,6 @@
 
 describe UsersController do
   context 'with authenticated user logged in' do
-
     describe 'GET new' do
       it 'assigns @user' do
         get :new
