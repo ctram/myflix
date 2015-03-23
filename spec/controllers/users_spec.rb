@@ -2,6 +2,7 @@
 
 describe UsersController do
   context 'with authenticated user logged in' do
+
     describe 'GET new' do
       it 'assigns @user' do
         get :new
@@ -11,16 +12,18 @@ describe UsersController do
 
     describe 'POST create' do
       context 'with valid input' do
-        before do
+        before :each do
           password = Faker::Internet.password(20)
-          post :create, user: Fabricate.attributes_for(:user)
+          session[:user_id] = 1
+          post :create, user: Fabricate.attributes_for(:user), id: 1
         end
 
         it 'creates the user' do
           expect(User.count).to eq(1)
         end
+
         it 'redirects to videos#index template' do
-          expect(response).to redirect_to video_path
+          expect(response).to redirect_to home_path
         end
 
       end
