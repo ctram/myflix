@@ -19,8 +19,8 @@ describe UsersController do
         it 'creates the user' do
           expect(User.count).to eq(1)
         end
-        it 'redirects to the sign in page' do
-          expect(response).to redirect_to home_path
+        it 'redirects to videos#index template' do
+          expect(response).to redirect_to video_path
         end
 
       end
