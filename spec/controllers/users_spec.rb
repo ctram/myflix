@@ -12,33 +12,22 @@ describe UsersController do
 
     describe 'POST create' do
       context 'with valid input' do
-        it 'creates the user' do
+        before do
           password = Faker::Internet.password(20)
-          post :create, user: {
-                                name_first:'John',
-                                name_last: 'Smith',
-                                email: 'js@example.com',
-                                password: password,
-                                password_confirmation: password
-                              }
+          post :create, user: Fabricate.attributes_for(:user)
+        end
+
+        it 'creates the user' do
           expect(User.count).to eq(1)
         end
         it 'redirects to the sign in page' do
-          password = Faker::Internet.password(20)
-          post :create, user: {
-                                name_first:'John',
-                                name_last: 'Smith',
-                                email: 'js@example.com',
-                                password: password,
-                                password_confirmation: password
-                              }
           expect(response).to redirect_to home_path
         end
 
       end
 
       context 'with invalid input' do
-        it 'does not create the user' do
+        before do
           password = Faker::Internet.password(20)
           post :create, user: {
             name_last: 'Smith',
@@ -46,19 +35,15 @@ describe UsersController do
             password: password,
             password_confirmation: password
           }
+        end
+
+        it 'does not create the user' do
           expect(User.count).to eq(0)
         end
+
         it 'renders the :new template' do
-          password = Faker::Internet.password(20)
-          post :create, user: {
-            name_last: 'Smith',
-            email: 'js@example.com',
-            password: password,
-            password_confirmation: password
-          }
           expect(response).to render_template :new
         end
-        it 'sets @user'
       end
     end
   end
