@@ -1,6 +1,6 @@
 Fabricator(:user)  do
-  name_first 'John'
-  name_last 'Smith'
-  email 'js@example.com'
+  name_first Faker::Name.first_name
+  name_last Faker::Name.last_name
+  email Faker::Internet.safe_email
   password Faker::Internet.password(20)
 end
