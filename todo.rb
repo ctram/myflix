@@ -2,8 +2,7 @@
 # TODO: add pull request
 # FIXME: tests are broken -- look into it.
 =begin
-TODO:
-add reviews activerecord object
+# TODO: add reviews activerecord object
 - a video has many reviews
 - a review has one video
 
