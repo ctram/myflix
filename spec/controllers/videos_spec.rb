@@ -65,7 +65,7 @@ describe VideosController do
 
       it 'matches all videos if search_term is an empty string and assigns search_results' do
         get :search, search_term:''
-        expect(assigns(:search_results)).to eq(Video.all)
+        expect(assigns(:search_results)).to eq(Video.all.sort_by{|video| video.name})
       end
 
       it 'matches one video and assigns @search_results' do

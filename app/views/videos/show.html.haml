@@ -12,10 +12,38 @@
   .row
     .col-sm-10.col-sm-offset-1
       = form_for [@video,@review] do |f|
+        = f.label :title
+        = f.text_field :title
+        = f.label :rating
         = select_tag("Rating", options_for_select([['One Star',1],['Two Stars',2],['Three Stars',3],['Four Stars',4],['Five Stars',5]]))
+        = f.label 'Review'
         = f.text_area :body
-        = f.submit
+        = f.submit 'Post Review'
+
+%hr
+%section.reviews.container
+  .row
+    .col-sm-10.col-sm-offset-1
+      %header
+        %h3 User reviews
+        %br
+        %br
+      - if @reviews.count > 0
+        %article.review
+          - @reviews.reverse.each do |review|
+            %br
+            %p
+              %strong= review.title
+              %br
+              Rating: #{review.rating}
+              %br
+              #{User.find(review.user_id).name_first.capitalize} wrote:
+              %br
+              = review.body
+      - else
+        There are no reviews yet.
 
 
 
-  -# TODO: Add review form and list of reviews
+
+  -# TODO: list of reviews

@@ -15,4 +15,16 @@ class Video < ActiveRecord::Base
     end
     matches.sort_by{|video| video.name}
   end
+
+  def average_rating
+    if self.reviews.count == 0
+      nil
+    else
+      num_reviews = self.reviews.count
+      total_rating = self.reviews.reduce(0) do |m, review|
+        m += review.rating
+      end
+      (total_rating.to_f/ num_reviews).round(2)
+    end
+  end
 end

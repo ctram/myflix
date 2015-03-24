@@ -1,4 +1,4 @@
 Fabricator(:video) do
-  name 'Hot Tub Time Machine'
-  description 'Movie about hot tubs.'
+  name {Faker::Lorem.sentence}
+  description {Faker::Lorem.paragraph}
 end

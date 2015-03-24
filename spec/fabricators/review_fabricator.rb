@@ -1,5 +1,5 @@
 Fabricator(:review) do
-  title 'Great Story'
+  title {Faker::Lorem.sentence}
   rating (Random::rand * 5).round
-  body Faker::Lorem.paragraph
+  body {Faker::Lorem.paragraph}
 end

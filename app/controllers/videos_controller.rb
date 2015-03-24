@@ -8,6 +8,7 @@ class VideosController < ApplicationController
 
   def show
     @review = Review.new
+    @reviews = Review.all
     @video = Video.find(params[:id])
   end
 
