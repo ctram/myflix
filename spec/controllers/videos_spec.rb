@@ -32,10 +32,23 @@ describe VideosController do
     end
 
     describe "GET show" do
+      before do
+        @video = Fabricate(:video)
+      end
+
       it 'assigns @video' do
-        video = Fabricate(:video)
-        get :show, id: video.id
-        expect(assigns(:video)).to eq(video)
+        get :show, id: @video.id
+        expect(assigns(:video)).to eq(@video)
+      end
+
+      it 'assigns @review' do
+        get :show, id: @video.id
+        expect(assigns(:review)).to be_an_instance_of(Review)
+      end
+
+      it 'assigns @rating' do
+        get :show, id: @video.id
+        expect(assigns(:rating)).to be_an_instance_of(Rating)
       end
     end
 

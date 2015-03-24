@@ -15,6 +15,9 @@ Myflix::Application.routes.draw do
     collection do
       get 'search'
     end
+    resources :reviews
   end
+
   resources :categories
+  resources :reviews
 end
