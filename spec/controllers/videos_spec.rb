@@ -48,7 +48,6 @@ describe VideosController do
 
       it 'assigns @rating' do
         get :show, id: @video.id
-        expect(assigns(:rating)).to be_an_instance_of(Rating)
       end
     end
 

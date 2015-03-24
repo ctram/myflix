@@ -1,5 +1,5 @@
 Fabricator(:review) do
   title 'Great Story'
-  user
-  video
+  rating (Random::rand * 5).round
+  body Faker::Lorem.paragraph
 end
