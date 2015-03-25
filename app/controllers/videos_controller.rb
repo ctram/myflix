@@ -8,11 +8,14 @@ class VideosController < ApplicationController
 
   def show
     @video = Video.find(params[:id])
+    @review = Review.new
+    @reviews = Review.all.select{|review| review.video_id == @video.id}
   end
 
-  private
-
-  def params_video
+  def search
+    search_term = params['search_term']
+    @search_results = Video.search_by_title(search_term)
 
   end
+
 end

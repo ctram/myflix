@@ -1,8 +1,11 @@
-require 'spec_helper'
+require_relative '../spec_helper'
 
 describe Video do
 
   it {should belong_to :category}
+
+  it {should have_many :reviews}
+
   it {should validate_presence_of :name}
   it {should validate_presence_of :description}
 
@@ -33,6 +36,36 @@ describe Video do
       Video.all << Video.create(name:'heathbar', description:'About a candy bar.')
       matches = Video.search_by_title('heath')
       expect(matches.sort_by{|video|video.name}).to eq matches
+    end
+  end
+
+  describe '#average_rating' do
+    before do
+      @video = Fabricate(:video)
+      @user = Fabricate(:user)
+    end
+    it 'returns nil if there are no reviews yet' do
+      expect(@video.average_rating).to be_nil
+    end
+    it 'returns a score if there is one review' do
+      review = Fabricate(:review)
+      review.user_id = @user.id
+      review.video_id = @video.id
+      @video.reviews << review
+      expect(@video.average_rating).not_to be_nil
+    end
+    it 'returns a score if there are two reviews' do
+      review1 = Fabricate(:review)
+      review1.user_id = @user.id
+      review1.video_id = @video.id
+
+      user2 = Fabricate(:user)
+
+      review2 = Fabricate(:review, user_id: user2.id, video_id:@video.id)
+
+      @video.reviews << review1
+      @video.reviews << review2
+      expect(@video.average_rating).not_to be_nil
     end
   end
 end
