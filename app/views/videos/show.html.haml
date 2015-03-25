@@ -19,10 +19,13 @@
       = form_for [@video,@review] do |f|
         = f.label :title
         = f.text_field :title
+
         = f.label :rating
-        = select_tag("Rating", options_for_select([['One Star',1],['Two Stars',2],['Three Stars',3],['Four Stars',4],['Five Stars',5]]))
+        = f.select(:rating, options_for_select([5,4,3,2,1].map{|num| pluralize(num, 'Star')}))
+
         = f.label 'Review'
         = f.text_area :body
+
         = f.submit 'Post Review'
 
 %hr

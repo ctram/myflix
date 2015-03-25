@@ -9,5 +9,6 @@ describe Review do
   it {should validate_presence_of :user_id}
   it {should validate_presence_of :video_id}
   it {should validate_presence_of :title}
+  it {should validate_presence_of :rating}
 
 end
