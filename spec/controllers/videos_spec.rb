@@ -1,8 +1,9 @@
-require_relative '../spec_helper'
-
+require 'spec_helper'
 
 describe VideosController do
+
   context 'with authenticated user' do
+
     before :each do
       user = Fabricate(:user,
                                 name_first: Faker::Name.name,
@@ -20,18 +21,17 @@ describe VideosController do
       # Going to leave this test here, but NOTE: per Kevin, we should NOT test whether call to a controller's action will render the default template. Why? Because that would be testing something we expect Rails to do by default, instead of testing our CODE. "Test what you own".
       it 'renders the index view template' do
         get :index
-
         expect(response).to render_template :index # this should obviously work because this is the default nature of Rails.
       end
 
       it 'assigns @videos' do
         get :index
         expect(assigns(:videos)).to eq(Video.all)
-        expect(assigns(:videos).count).to be 2
       end
     end
 
     describe "GET show" do
+
       before do
         @video = Fabricate(:video)
       end
@@ -90,31 +90,38 @@ describe VideosController do
 
         expect(assigns(:search_results)).to eq([video1, video2])
       end
-    end
 
+    end
   end
 
   context 'with UNauthenticated user' do
+
     describe 'GET index' do
+
       it 'redirects to front_path' do
         get :index
         expect(response).to redirect_to front_path
       end
+
     end
 
     describe 'GET show' do
+
       it 'redirects to front_path' do
         get :show, id:1 # Assume user tries to submit params in address bar.
         expect(response).to redirect_to front_path
       end
+
     end
 
     describe 'GET search' do
+
       it 'redirects to front_path' do
         get :search
         expect(response).to redirect_to front_path
       end
-    end
-  end
 
+    end
+
+  end
 end

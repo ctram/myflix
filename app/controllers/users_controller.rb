@@ -5,14 +5,17 @@ class UsersController < ApplicationController
   end
 
   def create
-    redirect_to videos_path if logged_in?
-    @user = User.new(params_user)
-    if @user.save
-      flash[:notice] = 'Successfully registered!'
-      log_in(@user)
-      redirect_to home_path
+    if logged_in?
+      redirect_to videos_path
     else
-      render :new
+      @user = User.new(params_user)
+      if @user.save
+        flash[:notice] = 'Successfully registered!'
+        log_in(@user)
+        redirect_to home_path
+      else
+        render :new
+      end
     end
   end
 

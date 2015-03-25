@@ -1,4 +1,4 @@
-require_relative '../spec_helper'
+require 'spec_helper'
 
 describe Video do
 
@@ -37,31 +37,56 @@ describe Video do
       matches = Video.search_by_title('heath')
       expect(matches.sort_by{|video|video.name}).to eq matches
     end
+
   end
 
   describe '#average_rating' do
+
     before do
       @video = Fabricate(:video)
       @user = Fabricate(:user)
     end
+
     it 'returns nil if there are no reviews yet' do
       expect(@video.average_rating).to be_nil
     end
+
     it 'returns a score if there is one review' do
-      review = Fabricate(:review)
+      review = Fabricate(
+                          :review,
+                          user_id: @user.id,
+                          video_id: @video.id,
+                          title: Faker::Lorem.sentence,
+                          rating: (Random::rand * 5).ceil,
+                          body: Faker::Lorem.paragraph
+                        )
+
       review.user_id = @user.id
       review.video_id = @video.id
       @video.reviews << review
       expect(@video.average_rating).not_to be_nil
     end
+
     it 'returns a score if there are two reviews' do
-      review1 = Fabricate(:review)
-      review1.user_id = @user.id
-      review1.video_id = @video.id
+      user1 = Fabricate(:user)
+      review1 = Fabricate(
+                            :review,
+                            user_id: user1.id,
+                            video_id: @video.id,
+                            title: Faker::Lorem.sentence,
+                            rating: (Random::rand * 5).ceil,
+                            body: Faker::Lorem.paragraph
+                          )
 
       user2 = Fabricate(:user)
-
-      review2 = Fabricate(:review, user_id: user2.id, video_id:@video.id)
+      review2 = Fabricate(
+                            :review,
+                            user_id: user2.id,
+                            video_id: @video.id,
+                            title: Faker::Lorem.sentence,
+                            rating: (Random::rand * 5).ceil,
+                            body: Faker::Lorem.paragraph
+                          )
 
       @video.reviews << review1
       @video.reviews << review2

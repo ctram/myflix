@@ -22,18 +22,26 @@ arr_videos = []
     cover = 'south_park.jpg'
   end
   arr_videos << Fabricate(:video, name: Faker::Lorem.sentence, cover_small_url: cover, category_id: category_num)
-
 end
 
-arr_users = []
-# Generate 5 unique users.
-5.times do
-  arr_users << Fabricate(:user)
-end
+# arr_users = []
+# # Generate 5 unique users.
+# 5.times do
+#   arr_users << Fabricate.build(:user)
+# end
+
+arr_users = Fabricate.times(5,:user)
 
 # Generate 5 reviews for each video, reviewed by each of the users.
 arr_videos.each do |video|
   arr_users.each do |user|
-    Fabricate(:review, user_id: user.id, video_id: video.id)
+    Fabricate(
+              :review,
+              user_id: user.id,
+              video_id: video.id,
+              body: Faker::Lorem.paragraph,
+              rating: (Random::rand * 5).ceil,
+              title: Faker::Lorem.sentence
+             )
   end
 end
