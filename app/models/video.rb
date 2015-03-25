@@ -8,7 +8,7 @@ class Video < ActiveRecord::Base
   validates :description, presence:true
 
   # returns an array of videos
-  def self.search_by_title term
+  def self.search_by_title(term)
     matches = []
     Video.all.each do |video|
       matches << video if /#{term}/i =~ video.name

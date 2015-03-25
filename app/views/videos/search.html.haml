@@ -1,6 +1,10 @@
 Matching videos:
 %br
-- @matches.each do |video|
-  / %article.video
-  = link_to do
-    - image_tag(video.cover_small_url)
+-
+- if @search_results != nil
+  #{pluralize(@search_results.count,'video')} match
+  %br
+  - @search_results.each do |video|
+    / %article.video
+    = link_to do
+      - image_tag(video.cover_small_url)

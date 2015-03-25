@@ -12,6 +12,7 @@
       = render 'shared/header'
     %section.content.clearfix
       = render 'shared/messages'
+      = render('shared/errors', obj: @review) unless @review == nil
       = yield
     %footer
       &copy 2013 MyFLiX
