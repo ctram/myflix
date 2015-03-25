@@ -41,30 +41,27 @@ describe Video do
   end
 
   describe '#average_rating' do
-
-    before do
-      @video = Fabricate(:video)
-      @user = Fabricate(:user)
-    end
+    let(:video) {Fabricate(:video)}
+    let(:user) {Fabricate(:user)}
 
     it 'returns nil if there are no reviews yet' do
-      expect(@video.average_rating).to be_nil
+      expect(video.average_rating).to be_nil
     end
 
     it 'returns a score if there is one review' do
       review = Fabricate(
                           :review,
-                          user_id: @user.id,
-                          video_id: @video.id,
+                          user_id: user.id,
+                          video_id: video.id,
                           title: Faker::Lorem.sentence,
                           rating: (Random::rand * 5).ceil,
                           body: Faker::Lorem.paragraph
                         )
 
-      review.user_id = @user.id
-      review.video_id = @video.id
-      @video.reviews << review
-      expect(@video.average_rating).not_to be_nil
+      review.user_id = user.id
+      review.video_id = video.id
+      video.reviews << review
+      expect(video.average_rating).not_to be_nil
     end
 
     it 'returns a score if there are two reviews' do
@@ -72,7 +69,7 @@ describe Video do
       review1 = Fabricate(
                             :review,
                             user_id: user1.id,
-                            video_id: @video.id,
+                            video_id: video.id,
                             title: Faker::Lorem.sentence,
                             rating: (Random::rand * 5).ceil,
                             body: Faker::Lorem.paragraph
@@ -82,15 +79,15 @@ describe Video do
       review2 = Fabricate(
                             :review,
                             user_id: user2.id,
-                            video_id: @video.id,
+                            video_id: video.id,
                             title: Faker::Lorem.sentence,
                             rating: (Random::rand * 5).ceil,
                             body: Faker::Lorem.paragraph
                           )
 
-      @video.reviews << review1
-      @video.reviews << review2
-      expect(@video.average_rating).not_to be_nil
+      video.reviews << review1
+      video.reviews << review2
+      expect(video.average_rating).not_to be_nil
     end
   end
 end
