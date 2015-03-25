@@ -7,9 +7,9 @@ class VideosController < ApplicationController
   end
 
   def show
-    @review = Review.new
-    @reviews = Review.all
     @video = Video.find(params[:id])
+    @review = Review.new
+    @reviews = Review.all.select{|review| review.video_id == @video.id}
   end
 
   def search

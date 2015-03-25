@@ -24,7 +24,7 @@ class Video < ActiveRecord::Base
       total_rating = self.reviews.reduce(0) do |m, review|
         m += review.rating
       end
-      (total_rating.to_f/ num_reviews).round(2)
+      (total_rating.to_f/ num_reviews).round(1)
     end
   end
 end

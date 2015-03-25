@@ -6,7 +6,7 @@ class ReviewsController < ApplicationController
     review.user_id = current_user.id
     review.video_id = params[:video_id]
     review.rating = params[:Rating]
-    binding.pry
+    
 
     if review.save
       flash[:notice] = "Your review has been successfully saved."
