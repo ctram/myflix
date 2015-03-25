@@ -2,3 +2,4 @@
 # TODO: add pull request
 # TODO: refactor tests.
 # TODO: pretty-fy videos#show template
+# TODO: check authentication for search pages and adding reviews

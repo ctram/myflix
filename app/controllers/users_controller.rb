@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   end
 
   def create
+    redirect_to videos_path if logged_in?
     @user = User.new(params_user)
     if @user.save
       flash[:notice] = 'Successfully registered!'
