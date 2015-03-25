@@ -23,43 +23,41 @@ describe Category do
   it {should have_many :videos}
 
   describe '#recent_videos' do
-    before :each do
-      @category = Category.create(name:'Dogs')
-    end
+    let(:category) {Category.create(name: 'Dogs')}
 
     it 'should return an empty array if there are no recent videos' do
-      expect(@category.recent_videos).to eq []
+      expect(category.recent_videos).to eq []
     end
 
     it 'should return an array of 2 videos if there are only 2 videos in the Category' do
-      @category.videos << Video.create(name:'Hot Dogs', description:'About hot dogs')
-      @category.videos << Video.create(name:'Cold Dogs', description:'About cold dogs')
-      expect(@category.recent_videos.count).to be 2
+      category.videos << Video.create(name:'Hot Dogs', description:'About hot dogs')
+      category.videos << Video.create(name:'Cold Dogs', description:'About cold dogs')
+      expect(category.recent_videos.count).to be 2
     end
 
     it 'should return at most 6 videos' do
-      @category.videos << Video.create(name:'Hot Dogs', description:'About hot dogs')
-      @category.videos << Video.create(name:'Cold Dogs', description:'About cold dogs')
-      @category.videos << Video.create(name:'Medium Dogs', description:'About cold dogs')
-      @category.videos << Video.create(name:'Small Dogs', description:'About cold dogs')
-      @category.videos << Video.create(name:'Warm Dogs', description:'About cold dogs')
-      @category.videos << Video.create(name:'Lukewarm Dogs', description:'About cold dogs')
-      @category.videos << Video.create(name:'Freezing Dogs', description:'About cold dogs')
-      @category.videos << Video.create(name:'Atomic Dogs', description:'About cold dogs')
-      expect(@category.recent_videos.count).to be 6
+      category.videos << Video.create(name:'Hot Dogs', description:'About hot dogs')
+      category.videos << Video.create(name:'Cold Dogs', description:'About cold dogs')
+      category.videos << Video.create(name:'Medium Dogs', description:'About cold dogs')
+      category.videos << Video.create(name:'Small Dogs', description:'About cold dogs')
+      category.videos << Video.create(name:'Warm Dogs', description:'About cold dogs')
+      category.videos << Video.create(name:'Lukewarm Dogs', description:'About cold dogs')
+      category.videos << Video.create(name:'Freezing Dogs', description:'About cold dogs')
+      category.videos << Video.create(name:'Atomic Dogs', description:'About cold dogs')
+      expect(category.recent_videos.count).to be 6
     end
 
     it 'should return array of videos ordered by created_at time. Newest added video first.' do
-      @category.videos << Video.create(name:'Hot Dogs', description:'About hot dogs')
-      @category.videos << Video.create(name:'Cold Dogs', description:'About cold dogs')
-      @category.videos << Video.create(name:'Medium Dogs', description:'About cold dogs')
-      @category.videos << Video.create(name:'Small Dogs', description:'About cold dogs')
-      @category.videos << Video.create(name:'Warm Dogs', description:'About cold dogs')
-      @category.videos << Video.create(name:'Lukewarm Dogs', description:'About cold dogs')
-      @category.videos << Video.create(name:'Freezing Dogs', description:'About cold dogs')
-      @category.videos << Video.create(name:'Atomic Dogs', description:'About cold dogs')
+      category.videos << Video.create(name:'Hot Dogs', description:'About hot dogs')
+      category.videos << Video.create(name:'Cold Dogs', description:'About cold dogs')
+      category.videos << Video.create(name:'Medium Dogs', description:'About cold dogs')
+      category.videos << Video.create(name:'Small Dogs', description:'About cold dogs')
+      category.videos << Video.create(name:'Warm Dogs', description:'About cold dogs')
+      category.videos << Video.create(name:'Lukewarm Dogs', description:'About cold dogs')
+      category.videos << Video.create(name:'Freezing Dogs', description:'About cold dogs')
+      category.videos << Video.create(name:'Atomic Dogs', description:'About cold dogs')
 
-      expect(@category.recent_videos).to eq @category.videos.sort_by{|video| video.created_at}.reverse.slice(0,6)
+      expect(category.recent_videos).to eq category.videos.sort_by{|video| video.created_at}.reverse.slice(0,6)
     end
 
   end
