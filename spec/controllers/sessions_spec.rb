@@ -59,7 +59,7 @@ describe SessionsController do
     end
   end
 
-  describe 'GET destroy' do
+  describe 'DELETE destroy' do
 
     it 'clears the session for the user' do
       alice = Fabricate(:user)
