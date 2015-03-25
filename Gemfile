@@ -11,6 +11,9 @@ gem 'uglifier'
 gem 'jquery-rails'
 gem 'pg'
 gem 'bcrypt'
+gem 'fabrication'
+gem 'faker'
+
 
 group :development do
   gem 'thin'
@@ -26,10 +29,6 @@ end
 
 group :test do
   gem 'shoulda'
-end
-
-
-group :test do
   gem 'database_cleaner', '1.2.0'
 end
 

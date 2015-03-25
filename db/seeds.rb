@@ -1,20 +1,47 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
 
 Category.create(name:'Comedies')
 Category.create(name:'Dramas')
 Category.create(name:'Action')
 Category.create(name:'Sci-Fi')
 
-Video.create name:'Monk', description:'asdasdsda', cover_small_url:'monk_small.jpg', category_id:1
+arr_videos = []
 
-Video.create name:'Family Guy', description:'asdasdsda', cover_small_url:'family_guy.jpg',category_id:2
+# Generate 25 videos with random cover art and placed in categories at random.
+25.times do
+  category_num = (Random::rand * 4).ceil
+  cover_num = ((Random::rand * 4).ceil)
 
-Video.create name:'Futurama', description:'asdasdsda',  cover_small_url:'futurama.jpg', category_id:3
+  case cover_num
+  when 1
+    cover = 'monk_small.jpg'
+  when 2
+    cover = 'family_guy.jpg'
+  when 3
+    cover = 'futurama.jpg'
+  when 4
+    cover = 'south_park.jpg'
+  end
+  arr_videos << Fabricate(:video, name: Faker::Lorem.sentence, cover_small_url: cover, category_id: category_num)
+end
 
-Video.create name:'South Park', description:'asdasdsda', cover_small_url:'south_park.jpg', category_id:1
+# arr_users = []
+# # Generate 5 unique users.
+# 5.times do
+#   arr_users << Fabricate.build(:user)
+# end
+
+arr_users = Fabricate.times(5,:user)
+
+# Generate 5 reviews for each video, reviewed by each of the users.
+arr_videos.each do |video|
+  arr_users.each do |user|
+    Fabricate(
+              :review,
+              user_id: user.id,
+              video_id: video.id,
+              body: Faker::Lorem.paragraph,
+              rating: (Random::rand * 5).ceil,
+              title: Faker::Lorem.sentence
+             )
+  end
+end

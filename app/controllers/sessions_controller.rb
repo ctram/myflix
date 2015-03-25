@@ -24,5 +24,3 @@ class SessionsController < ApplicationController
   end
 
 end
-
-# TODO: if logged in, user is not able to get to the front page or the sign in page or the register page.
