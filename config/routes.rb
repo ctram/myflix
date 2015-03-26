@@ -5,6 +5,7 @@ Myflix::Application.routes.draw do
   get '/' => 'static_pages#front', as:'front'
   get '/register' => 'users#new', as: 'register'
   get '/sign-in' => 'sessions#new', as: 'sign_in'
+  get '/my_queue' => 'queues#show'
 
   resources :users do
   end
