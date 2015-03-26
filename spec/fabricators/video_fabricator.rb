@@ -1,4 +1,5 @@
 Fabricator(:video) do
-  name {Faker::Lorem.sentence}
+  name {Faker::Lorem.words.join(" ").capitalize}
   description {Faker::Lorem.paragraph}
+  category
 end

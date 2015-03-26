@@ -11,5 +11,5 @@ My Queue has:
       - video rating, if set by user
       - genre
       - position in the queue
-
+TODO: code my_queues#show template, backed by @my_queue
 =end
