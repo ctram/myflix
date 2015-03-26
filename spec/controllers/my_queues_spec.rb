@@ -13,12 +13,19 @@ describe MyQueuesController do
 
       describe 'GET show' do
 
-        it 'creates a my_queue for user' do
+        it 'redirects to my_queues_path (my_queues#create)' do
           user.my_queue = nil
           get :show
-          expect(user.my_queue).not_to eq(nil)
+          expect(response).to redirect_to my_queues_path
         end
 
+      end
+
+      describe 'POST create' do
+        it 'creates a my_queue object for user' do
+          post :create
+          expect(user.my_queue).not_to eq(nil)
+        end
       end
 
     end
