@@ -1,15 +1,15 @@
 
-Category.create(name:'Comedies')
-Category.create(name:'Dramas')
-Category.create(name:'Action')
-Category.create(name:'Sci-Fi')
+arr_categories = []
+arr_categories << Category.create(name:'Comedies')
+arr_categories << Category.create(name:'Dramas')
+arr_categories << Category.create(name:'Action')
+arr_categories << Category.create(name:'Sci-Fi')
 
 arr_videos = []
 
 # Generate 25 videos with random cover art and placed in categories at random.
 25.times do
-  category_num = (Random::rand * 4).ceil
-  cover_num = ((Random::rand * 4).ceil)
+  cover_num = (Random::rand * 4).ceil
 
   case cover_num
   when 1
@@ -21,14 +21,13 @@ arr_videos = []
   when 4
     cover = 'south_park.jpg'
   end
-  arr_videos << Fabricate(:video, name: Faker::Lorem.sentence, cover_small_url: cover, category_id: category_num)
+  arr_videos << Fabricate(
+                          :video,
+                          name: Faker::Lorem.words(3).join(" ").capitalize,
+                          cover_small_url: cover,
+                          category: arr_categories.sample
+  )
 end
-
-# arr_users = []
-# # Generate 5 unique users.
-# 5.times do
-#   arr_users << Fabricate.build(:user)
-# end
 
 arr_users = Fabricate.times(5,:user)
 
@@ -37,11 +36,20 @@ arr_videos.each do |video|
   arr_users.each do |user|
     Fabricate(
               :review,
-              user_id: user.id,
-              video_id: video.id,
-              body: Faker::Lorem.paragraph,
+              user: user,
+              video: video,
+              body: Faker::Lorem.paragraph(3),
               rating: (Random::rand * 5).ceil,
               title: Faker::Lorem.sentence
-             )
+    )
+  end
+end
+
+# Each user has 5 queue_items in his queue_items. Each
+# queue_item is a random video.
+arr_users.each do |user|
+  5.times do
+    queue_item = Fabricate(:queue_item, user: user, video: arr_videos.sample)
+    user.queue_items << queue_item
   end
 end
