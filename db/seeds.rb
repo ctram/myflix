@@ -40,17 +40,12 @@ arr_videos.each do |video|
   end
 end
 
-# Generate my_queues and queue_items - generate a my_queue for each of the 5
-# users. Each user has 5 queue_items on his my_queue. Each queue_item is a
-# random video.
+# Each user has 5 queue_items in his queue_items. Each
+# queue_item is a random video.
 arr_users.each do |user|
-  my_queue = Fabricate(:my_queue)
-  my_queue.user = user
-  user.my_queue = my_queue
   5.times do
-    queue_item = Fabricate(:queue_item)
-    queue_item.my_queue = my_queue
+    queue_item = Fabricate(:queue_item, user: user)
     queue_item.video = arr_videos.sample
-    user.my_queue.queue_items << queue_item
+    user.queue_items << queue_item
   end
 end
