@@ -1,8 +1,11 @@
-
-- @categories.each do |category|
-  %br
-  %h1 #{category.name}
-  %br
-  - category.videos.each do |video|
-    = link_to video do
-      - image_tag video.cover_small_url
+%article.video_category
+  - @categories.each do |category|
+    %hr
+    %br
+    %header
+      %h3= link_to("#{category.name}", category_path(category))
+    .video.row
+      - category.videos.each do |video|
+        .video.col-sm-2
+          = link_to video do
+            - image_tag video.cover_small_url

@@ -38,7 +38,7 @@ arr_videos.each do |video|
               :review,
               user: user,
               video: video,
-              body: Faker::Lorem.paragraph,
+              body: Faker::Lorem.paragraph(3),
               rating: (Random::rand * 5).ceil,
               title: Faker::Lorem.sentence
     )
