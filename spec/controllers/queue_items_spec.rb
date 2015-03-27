@@ -76,5 +76,50 @@ describe QueueItemsController do
     end
   end
 
+  describe 'DELETE destroy' do
+
+    let(:alice) {Fabricate(:user)}
+
+    before do
+      session[:user_id] = alice.id
+    end
+
+    it 'redirects to my queue page' do
+      queue_item = Fabricate(:queue_item, user: alice)
+      delete :destroy, id: queue_item.id
+      expect(response).to redirect_to my_queue_path
+    end
+
+    it 'updates the position of all videos on the queue' do
+      queue_item1 = Fabricate(:queue_item, user: alice, position: 1)
+      queue_item2 = Fabricate(:queue_item, user: alice, position: 2)
+      delete :destroy, id: queue_item1.id
+      expect(queue_item2.reload.position).to eq(1)
+    end
+
+
+    it 'deletes the queue item' do
+      queue_item = Fabricate(:queue_item, user: alice)
+      alice_init_queue_items_count = alice.queue_items.count
+      delete :destroy, id: queue_item.id
+      expect(alice.queue_items.count).to eq(alice_init_queue_items_count - 1)
+    end
+
+    it 'does not delete the queue item if the queue item does not belong to the current user' do
+      bob = Fabricate(:user)
+      queue_item = Fabricate(:queue_item, user: bob)
+      bob_init_queue_items_count = bob.queue_items.count
+      delete :destroy, id: queue_item.id  # try to destroy bob's queue_item while logged in as alice.
+      expect(bob.queue_items.count).to eq(bob_init_queue_items_count)
+    end
+
+    it 'redirects to the sign in page for unauthenticated users' do
+      session[:user_id] = nil
+      delete :destroy, id:1
+      expect(response).to redirect_to sign_in_path
+    end
+  end
+
+
 
 end
