@@ -1,6 +1,3 @@
-My Queue
--# ivars = @user, @my_queue
-
 %section.my_queue.container
   .row
     .col-sm-10.col-sm-offset-1
@@ -17,10 +14,11 @@ My Queue
               %th(width="15%") Genre
               %th(width="15%") Remove
           %tbody
-            - @my_queue.queue_items.each do |queue_item|
+            -# Add model backed list of queue items
+            - @queue_items.each do |queue_item|
               %tr
                 %td
-                  %input.form-control(type='text' value="#{queue_item.position}")
+                  %input.form-control(type="text" value="1")
                 %td
                   = link_to("#{queue_item.video.name}", video_path(queue_item.video))
                 %td
@@ -34,7 +32,6 @@ My Queue
                     %option(value="1") 1 Star
                 %td
                   = link_to("#{queue_item.video.category.name}", category_path(queue_item.video.category))
-
                 %td
                   = link_to "", method: :post do
                     %i.glyphicon.glyphicon-remove

@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   has_secure_password
 
   has_many :reviews
-  has_one :my_queue
+  has_many :queue_items
 
   validates :name_first, presence:true
   validates :name_last, presence:true

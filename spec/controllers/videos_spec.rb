@@ -95,27 +95,27 @@ describe VideosController do
 
     describe 'GET index' do
 
-      it 'redirects to front_path' do
+      it 'redirects to sign_in_path' do
         get :index
-        expect(response).to redirect_to front_path
+        expect(response).to redirect_to sign_in_path
       end
 
     end
 
     describe 'GET show' do
 
-      it 'redirects to front_path' do
+      it 'redirects to sign_in_path' do
         get :show, id:1 # Assume user tries to submit params in address bar.
-        expect(response).to redirect_to front_path
+        expect(response).to redirect_to sign_in_path
       end
 
     end
 
     describe 'GET search' do
 
-      it 'redirects to front_path' do
+      it 'redirects to sign_in_path' do
         get :search
-        expect(response).to redirect_to front_path
+        expect(response).to redirect_to sign_in_path
       end
 
     end
