@@ -27,7 +27,7 @@
           = f.label "Rate this video"
           .row
             .col-sm-3
-              = f.select(:rating, options_for_select([5,4,3,2,1].map{|num| pluralize(num, 'Star')}))
+              = f.select(:rating, option_select_rating_drop_down)
         .form-group
           = f.label "Review Title"
           %br

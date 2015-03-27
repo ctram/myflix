@@ -25,7 +25,7 @@
                 %td
                   = queue_item.rating
                 %td
-                  = link_to("#{queue_item.category.name}", category_path(queue_item.category))
+                  = link_to("#{queue_item.category.name}", queue_item.category)
                 %td
                   = link_to queue_item, method: :delete do
                     %i.glyphicon.glyphicon-remove

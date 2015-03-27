@@ -1,5 +1,5 @@
 class Category < ActiveRecord::Base
-  has_many :videos, -> { order('name')}
+  has_many :videos, -> { order('name') }
 
   validates_presence_of :name
 

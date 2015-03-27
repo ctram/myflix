@@ -3,20 +3,20 @@ class QueueItem < ActiveRecord::Base
   belongs_to :user
 
   def video_title
-    self.video.name
+    video.name
   end
 
   def rating
-    review = Review.where(user_id: user.id, video_id: video.id).first
+    review = Review.find_by(user_id: user.id, video_id: video.id)
     review.rating if review
   end
 
   def category_name
-    self.video.category.name
+    video.category.name
   end
 
   def category
-    self.video.category 
+    video.category
   end
 
 end

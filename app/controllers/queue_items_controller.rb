@@ -29,12 +29,11 @@ class QueueItemsController < ApplicationController
   end
 
   def current_user_already_queued_this_video?(video)
-    current_user.queue_items.map{|queue_item| queue_item.video}.include?(video)
+    current_user.queue_items.map(&:video).include?(video)
   end
 
   def update_queue_items_positions
     queue_items = current_user.queue_items
-    queue_items = queue_items.sort_by{|queue_item| queue_item.position}
     queue_items.each_with_index do |queue_item, i|
       queue_item.position = i + 1
       queue_item.save

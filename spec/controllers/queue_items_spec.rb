@@ -97,7 +97,6 @@ describe QueueItemsController do
       expect(queue_item2.reload.position).to eq(1)
     end
 
-
     it 'deletes the queue item' do
       queue_item = Fabricate(:queue_item, user: alice)
       alice_init_queue_items_count = alice.queue_items.count
@@ -119,7 +118,4 @@ describe QueueItemsController do
       expect(response).to redirect_to sign_in_path
     end
   end
-
-
-
 end

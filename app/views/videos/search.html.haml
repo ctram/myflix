@@ -6,5 +6,5 @@ Matching videos:
   %br
   - @search_results.each do |video|
     / %article.video
-    = link_to video_path(video) do
+    = link_to video do
       - image_tag(video.cover_small_url)

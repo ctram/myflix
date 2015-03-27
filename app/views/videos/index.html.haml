@@ -3,7 +3,7 @@
     %hr
     %br
     %header
-      %h3= link_to("#{category.name}", category_path(category))
+      %h3= link_to("#{category.name}", category)
     .video.row
       - category.videos.each do |video|
         .video.col-sm-2
