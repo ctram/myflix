@@ -13,3 +13,6 @@ My Queue has:
       - position in the queue
 TODO: code my_queues#show template, backed by @my_queue
 =end
+TODO: wrap the queue position field to accept only integers, not floats. Use 'transactions' to do this.
+
+TODO: User is able to update the queue position of video items.

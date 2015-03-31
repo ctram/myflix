@@ -5,6 +5,35 @@ class QueueItemsController < ApplicationController
     @queue_items = current_user.queue_items
   end
 
+  def update_index
+    queue_items_in_params = {}
+    # Filter params for only queue_items and their updated positions
+    params.each do |k,v|
+      if k.include?('queue_item') and k.include?('position')
+        queue_items_in_params[k] = v
+      end
+    end
+
+    @queue_items = []
+    # Build @queue_items ivar incase a render of :index is required
+    queue_items_in_params.each do |k,v|
+      queue_item_id = k.split('_')[2].to_i
+      @queue_items << QueueItem.find(queue_item_id)
+    end
+
+    if queue_items_in_params.select{|k,v| v.include?('.')}.count > 0
+      flash[:error] = "You may only enter integers for queue positions"
+      render :index
+    else
+      queue_items_in_params.each do |k,v|
+        queue_item_id = k.split('_')[2].to_i
+        new_position = v.to_i
+        QueueItem.find(queue_item_id).position = new_position
+      end
+      redirect_to(my_queue_path)
+    end
+  end
+
   def create
     video = Video.find(params[:video_id])
     queue_video(video)
