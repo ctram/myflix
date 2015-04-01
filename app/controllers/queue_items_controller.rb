@@ -11,10 +11,12 @@ class QueueItemsController < ApplicationController
 
 
     if num_queue_items_of_current_user < params[:queue_items].count
+      @queue_items = previous_queue_items
       flash[:error] = "You cannot modify another user's data."
       render :index
-    elsif params_queue_items_include_float?
-      flash[:error] = "Updated positions must be in integer form."
+    elsif params_queue_items_position_invalid_type?
+      @queue_items = previous_queue_items
+      flash[:error] = "Updated positions must be an integer (not a float or letter or symbol, etc.)"
       render :index
     else
       params[:queue_items].each do |queue_item|
@@ -69,14 +71,23 @@ class QueueItemsController < ApplicationController
     params[:queue_items].select{|queue_item| QueueItem.find(queue_item[:id]).user == current_user}.count
   end
 
-  def params_queue_items_include_float?
+  def params_queue_items_position_invalid_type?
+    num = %w(1 2 3 4 5 6 7 8 9 0)
     params[:queue_items].each do |queue_item|
-
-      if queue_item[:position].include?('.')
-        return true
+      chars = queue_item[:position].split('')
+      chars.each do |char|
+        return true if char == '.'
+        return true if !num.include?(char)
       end
     end
     false
+  end
+
+  # Returns array of queue_items as they were BEFORE the call of the current action.
+  def previous_queue_items
+    params[:queue_items].map do |queue_item|
+      QueueItem.find(queue_item[:id])
+    end
   end
 
 end

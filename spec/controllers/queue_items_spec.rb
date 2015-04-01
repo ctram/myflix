@@ -195,7 +195,7 @@ describe QueueItemsController do
 
       end
 
-      context 'when user attempts to update position as a float instead of an integer' do
+      context 'when user attempts to update position as a non-integer' do
 
         it 'renders queue_items#index' do
           post(:update_index, queue_items: [{id: @alice_queue_item1.id, position: "1.5"}])
@@ -204,7 +204,7 @@ describe QueueItemsController do
 
         it 'sets flash[:error] message' do
           post(:update_index, queue_items: [{id: @alice_queue_item1.id, position: "1.5"}])
-          expect(flash[:error]).to eq("Updated positions must be in integer form.")
+          expect(flash[:error]).to eq("Updated positions must be an integer (not a float or letter or symbol, etc.)")
         end
 
       end
@@ -212,7 +212,7 @@ describe QueueItemsController do
     end
 
   end
-  
+
 end
 
 
