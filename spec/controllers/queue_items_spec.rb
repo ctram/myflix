@@ -176,12 +176,45 @@ describe QueueItemsController do
     end
 
     context 'with invalid data' do
-      it 'updates with queue_item that belongs to another user'
-      it 'updates with a float instead of a intger'
-    end
-  end
 
+      context "when user attempts to modify another user's data" do
+
+        it "renders queue_items#index" do
+          bob = Fabricate(:user)
+          bob.queue_items << Fabricate(:queue_item, position: 1)
+          post(:update_index, queue_items: [{id: bob.queue_items.first.id, position: 9}])
+          expect(response).to render_template(:index)
+        end
+
+        it "sets flash[:error] message" do
+          bob = Fabricate(:user)
+          bob.queue_items << Fabricate(:queue_item, position: 1)
+          post(:update_index, queue_items: [{id: bob.queue_items.first.id, position: 9}])
+          expect(flash[:error]).to eq("You cannot modify another user's data.")
+        end
+
+      end
+
+      context 'when user attempts to update position as a float instead of an integer' do
+
+        it 'renders queue_items#index' do
+          post(:update_index, queue_items: [{id: @alice_queue_item1.id, position: "1.5"}])
+          expect(response).to render_template(:index)
+        end
+
+        it 'sets flash[:error] message' do
+          post(:update_index, queue_items: [{id: @alice_queue_item1.id, position: "1.5"}])
+          expect(flash[:error]).to eq("Updated positions must be in integer form.")
+        end
+
+      end
+
+    end
+
+  end
+  
 end
+
 
 
 # TODO: test that user can ONLY update queue items that he owns. Why? A malicious user can change the queue_item IDs through the browser inspector and change the queue_item attributes of some other user.
