@@ -6,6 +6,8 @@ class QueueItemsController < ApplicationController
   end
 
   def update_index
+    # FIXME: current_user is showing up with queue_items with empty positions even though the postions were set in the Spec.
+    binding.pry
     queue_items_in_params = {}
     # Filter params for only queue_items and their updated positions
     params.each do |k,v|
@@ -21,6 +23,7 @@ class QueueItemsController < ApplicationController
       @queue_items << QueueItem.find(queue_item_id)
     end
 
+
     if queue_items_in_params.select{|k,v| v.include?('.')}.count > 0
       flash[:error] = "You may only enter integers for queue positions"
       render :index
@@ -28,8 +31,16 @@ class QueueItemsController < ApplicationController
       queue_items_in_params.each do |k,v|
         queue_item_id = k.split('_')[2].to_i
         new_position = v.to_i
+
         QueueItem.find(queue_item_id).position = new_position
       end
+
+
+      # Ensure positions are consecutive.
+      current_user.reload.queue_items.each_with_index do |queue_item, i|
+        queue_item.position = i + 1
+      end
+
       redirect_to(my_queue_path)
     end
   end

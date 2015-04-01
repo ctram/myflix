@@ -19,7 +19,6 @@
               - @queue_items.each do |queue_item|
                 %tr
                   %td
-                    -# TODO: link text_field_tag to unique video.
                     -# Position
                     = text_field_tag("queue_item_#{queue_item.id}_position", queue_item.position)
                   %td
