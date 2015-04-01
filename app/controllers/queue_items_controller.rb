@@ -5,7 +5,18 @@ class QueueItemsController < ApplicationController
     @queue_items = current_user.queue_items
   end
 
+  # TODO: code update_index()
   def update_index
+    # Assigns new positions for each queue_item
+    params[:queue_items].each do |hash|
+      QueueItem.find(hash[:id]).update(position: hash[:position])
+    end
+
+
+    # Ensures that all position numbers are consecutive.
+    current_user.queue_items.each_with_index do |queue_item, i|
+      queue_item.update(position: i + 1)
+    end
 
     redirect_to my_queue_path
   end
