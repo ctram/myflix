@@ -247,3 +247,4 @@ describe QueueItemsController do
   end
 
 end
+# TODO: test that user can ONLY update queue items that he owns. Why? A malicious user can change the queue_item IDs through the browser inspector and change the queue_item attributes of some other user.
