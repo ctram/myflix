@@ -7,40 +7,7 @@ class QueueItemsController < ApplicationController
 
   def update_index
 
-    params_queue_items = {}
-    # Filter params for only queue_items and their updated positions
-    params.each do |k,v|
-      if k.include?('queue_item') and k.include?('position')
-        params_queue_items[k] = v
-      end
-    end
-
-    @queue_items = []
-    # Build @queue_items ivar incase a render of :index is required
-    params_queue_items.each do |k,v|
-      queue_item_id = k.split('_')[2].to_i
-      @queue_items << QueueItem.find(queue_item_id)
-    end
-
-    if params_queue_items.select{|k,v| v.include?('.')}.count > 0
-      flash[:error] = "You may only enter integers for queue positions"
-      render :index
-    else
-      params_queue_items.each do |k,v|
-        queue_item_id = k.split('_')[2].to_i
-        new_position = v.to_i
-
-        QueueItem.find(queue_item_id).update(position: new_position)
-
-      end
-
-      # Ensure positions are consecutive.
-      current_user.reload.queue_items.each_with_index do |queue_item, i|
-        queue_item.update(position: i + 1)
-      end
-
-      redirect_to(my_queue_path)
-    end
+    redirect_to my_queue_path
   end
 
   def create

@@ -1,3 +1,4 @@
+-# TODO: refactor params so that you use nested hashes like in the solution video.
 -# Live
 %section.my_queue.container
   .row
@@ -20,7 +21,8 @@
                 %tr
                   %td
                     -# Position
-                    = text_field_tag("queue_item_#{queue_item.id}_position", queue_item.position)
+                    = hidden_field_tag('queue_items[][id]', queue_item.id)
+                    = text_field_tag('queue_items[][position]', queue_item.position)
                   %td
                     -# Video title
                     = link_to("#{queue_item.video_title}", video_path(queue_item.video))

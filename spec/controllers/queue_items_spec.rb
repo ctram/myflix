@@ -128,123 +128,12 @@ describe QueueItemsController do
   end
 
   describe 'POST update_index' do
-    let(:alice) {Fabricate(:user)}
-
-    before do
-      session[:user_id] = alice.id
-
-      alice.queue_items << Fabricate(:queue_item, position: 1)
-      alice.queue_items << Fabricate(:queue_item, position: 2)
-      alice.queue_items << Fabricate(:queue_item, position: 3)
-      alice.queue_items << Fabricate(:queue_item, position: 4)
-
-      @alice_queue_item1 = alice.queue_items[0]
-      @alice_queue_item2 = alice.queue_items[1]
-      @alice_queue_item3 = alice.queue_items[2]
-      @alice_queue_item4 = alice.queue_items[3]
-    end
-
-    it 'redirects to /my_queue (GET)' do
-      post :update_index
-
-      expect(response).to redirect_to(my_queue_path)
-    end
-
-    it 'updates one queue_item position' do
-      orig_pos1 = @alice_queue_item1.position
-
-      post(:update_index, "queue_item_#{@alice_queue_item1.id}_position" => 3)
-
-      expect(@alice_queue_item1.reload.position).not_to eq(orig_pos1)
-    end
-
-    it 'updates two queue_item positions' do
-      orig_pos1 = @alice_queue_item1.position
-      orig_pos2 = @alice_queue_item2.position
-
-      post(:update_index, "queue_item_#{@alice_queue_item1.id}_position" => 3, "queue_item_#{@alice_queue_item2.id}_position" => 1)
-
-      expect(@alice_queue_item1.reload.position).not_to eq(orig_pos1)
-      expect(@alice_queue_item2.reload.position).not_to eq(orig_pos2)
-    end
-
-    it 'updates four queue_item positions' do
-      orig_pos1 = @alice_queue_item1.position
-      orig_pos2 = @alice_queue_item2.position
-      orig_pos3 = @alice_queue_item3.position
-      orig_pos4 = @alice_queue_item4.position
-
-      post(
-            :update_index,
-            "queue_item_#{@alice_queue_item1.id}_position" => 9,
-            "queue_item_#{@alice_queue_item2.id}_position" => 6,
-            "queue_item_#{@alice_queue_item3.id}_position" => 2,
-            "queue_item_#{@alice_queue_item4.id}_position" => 3
-      )
-
-      expect(@alice_queue_item1.reload.position).not_to eq(orig_pos1)
-      expect(@alice_queue_item2.reload.position).not_to eq(orig_pos2)
-      expect(@alice_queue_item3.reload.position).not_to eq(orig_pos3)
-      expect(@alice_queue_item4.reload.position).not_to eq(orig_pos4)
-    end
-
-    it 'updates valid non-consecutive positions integers when there is one update' do
-      orig_pos1 = @alice_queue_item1.position
-
-      post(:update_index, "queue_item_#{@alice_queue_item1.id}_position" => 5)
-
-      expect(@alice_queue_item1.reload.position).to eq(4)
-      expect(@alice_queue_item2.reload.position).to eq(1)
-      expect(@alice_queue_item3.reload.position).to eq(2)
-      expect(@alice_queue_item4.reload.position).to eq(3)
-    end
-
-    it 'updates valid non-consecutive positions integers when there are two updates' do
-      orig_pos1 = @alice_queue_item1.position
-      orig_pos2 = @alice_queue_item2.position
-
-      post(:update_index, "queue_item_#{@alice_queue_item1.id}_position" => 5, "queue_item_#{@alice_queue_item2.id}_position" => 8)
-
-      expect(@alice_queue_item1.reload.position).to eq(3)
-      expect(@alice_queue_item2.reload.position).to eq(4)
-      expect(@alice_queue_item3.reload.position).to eq(1)
-      expect(@alice_queue_item4.reload.position).to eq(2)
-
-    end
-
-    it 'updates valid non-consecutive positions integers when there are four updates' do
-      orig_pos1 = @alice_queue_item1.position
-      orig_pos2 = @alice_queue_item2.position
-      orig_pos3 = @alice_queue_item3.position
-      orig_pos4 = @alice_queue_item4.position
-
-      post(
-        :update_index,
-        "queue_item_#{@alice_queue_item1.id}_position" => 5,
-        "queue_item_#{@alice_queue_item2.id}_position" => 7,
-        "queue_item_#{@alice_queue_item3.id}_position" => 9,
-        "queue_item_#{@alice_queue_item4.id}_position" => 11
-      )
-
-      expect(@alice_queue_item1.reload.position).to eq(1)
-      expect(@alice_queue_item2.reload.position).to eq(2)
-      expect(@alice_queue_item3.reload.position).to eq(3)
-      expect(@alice_queue_item4.reload.position).to eq(4)
-    end
-
-    it 'renders queue_items#index template when an invalid position number is submitted (float instead of integer)' do
-      orig_pos1 = @alice_queue_item1.position
-      post(:update_index, "queue_item_#{@alice_queue_item1.id}_position" => 2.5)
-      expect(response).to render_template(:index)
-    end
-
-    it 'rejects non-integer positions' do
-      orig_pos1 = @alice_queue_item1.position
-      post(:update_index, "queue_item_#{@alice_queue_item1.id}_position" => 2.5)
-      expect(flash[:error]).to eq('You may only enter integers for queue positions')
-    end
+    context 'with invalid data (use of float)'
+    context 'with valid data'
 
   end
 
 end
+
+
 # TODO: test that user can ONLY update queue items that he owns. Why? A malicious user can change the queue_item IDs through the browser inspector and change the queue_item attributes of some other user.
