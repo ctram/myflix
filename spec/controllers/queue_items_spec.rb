@@ -6,10 +6,14 @@ describe QueueItemsController do
 
     it 'sets @queue_items to the queue_items of the logged in user' do
       alice = Fabricate(:user)
+
       session[:user_id] = alice.id
+
       queue_item1 = Fabricate(:queue_item, user:alice)
       queue_item2 = Fabricate(:queue_item, user:alice)
+
       get :index
+
       expect(assigns(:queue_items)).to match_array([queue_item1, queue_item2])
     end
 
@@ -17,9 +21,11 @@ describe QueueItemsController do
       get :index
       expect(response).to redirect_to sign_in_path
     end
+
   end
 
   describe 'POST create' do
+
     it 'redirects to the my queue page' do
       session[:user_id] = Fabricate(:user).id
       video = Fabricate(:video)
@@ -74,6 +80,7 @@ describe QueueItemsController do
       post :create, video_id: 2
       expect(response).to redirect_to sign_in_path
     end
+
   end
 
   describe 'DELETE destroy' do
@@ -139,19 +146,24 @@ describe QueueItemsController do
 
     it 'redirects to /my_queue (GET)' do
       post :update_index
+
       expect(response).to redirect_to(my_queue_path)
     end
 
     it 'updates one queue_item position' do
       orig_pos1 = @alice_queue_item1.position
+
       post(:update_index, "queue_item_#{@alice_queue_item1.id}_position" => 3)
+
       expect(@alice_queue_item1.reload.position).not_to eq(orig_pos1)
     end
 
     it 'updates two queue_item positions' do
       orig_pos1 = @alice_queue_item1.position
       orig_pos2 = @alice_queue_item2.position
+
       post(:update_index, "queue_item_#{@alice_queue_item1.id}_position" => 3, "queue_item_#{@alice_queue_item2.id}_position" => 1)
+
       expect(@alice_queue_item1.reload.position).not_to eq(orig_pos1)
       expect(@alice_queue_item2.reload.position).not_to eq(orig_pos2)
     end
@@ -161,6 +173,7 @@ describe QueueItemsController do
       orig_pos2 = @alice_queue_item2.position
       orig_pos3 = @alice_queue_item3.position
       orig_pos4 = @alice_queue_item4.position
+
       post(
             :update_index,
             "queue_item_#{@alice_queue_item1.id}_position" => 9,
@@ -168,6 +181,7 @@ describe QueueItemsController do
             "queue_item_#{@alice_queue_item3.id}_position" => 2,
             "queue_item_#{@alice_queue_item4.id}_position" => 3
       )
+
       expect(@alice_queue_item1.reload.position).not_to eq(orig_pos1)
       expect(@alice_queue_item2.reload.position).not_to eq(orig_pos2)
       expect(@alice_queue_item3.reload.position).not_to eq(orig_pos3)
@@ -175,7 +189,6 @@ describe QueueItemsController do
     end
 
     it 'updates valid non-consecutive positions integers when there is one update' do
-
       orig_pos1 = @alice_queue_item1.position
 
       post(:update_index, "queue_item_#{@alice_queue_item1.id}_position" => 5)
@@ -232,5 +245,5 @@ describe QueueItemsController do
     end
 
   end
-# TODO: add validation of use of non-float numbers using transactions
+
 end
