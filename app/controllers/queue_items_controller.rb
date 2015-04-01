@@ -71,6 +71,7 @@ class QueueItemsController < ApplicationController
     params[:queue_items].select{|queue_item| QueueItem.find(queue_item[:id]).user == current_user}.count
   end
 
+  # Returns true if the new position is NOT an integer.
   def params_queue_items_position_invalid_type?
     num = %w(1 2 3 4 5 6 7 8 9 0)
     params[:queue_items].each do |queue_item|
