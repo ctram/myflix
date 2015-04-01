@@ -126,19 +126,15 @@ describe QueueItemsController do
     before do
       session[:user_id] = alice.id
 
-      4.times do |n|
-        alice.queue_items << Fabricate(:queue_item, user: alice, position: 1)
-      end
-      # FIXME: alice.queue_items() and QueueItem.all() are unexpectedly yielding different results; You are not able to change position of a QueueItem after it has been fabricated. You can set it, but only the alice object contains the updated queue_item positions -- QueueItem does NOT show the updated positions. Yet, the console says (alice.queue_items.first == QueueItem.first) is TRUE, even though they do not share the same position number. 
-      alice.queue_items[0].position = 1
-      alice.queue_items[1].position = 2
-      alice.queue_items[2].position = 3
-      alice.queue_items[3].position = 4
+      alice.queue_items << Fabricate(:queue_item, position: 1)
+      alice.queue_items << Fabricate(:queue_item, position: 2)
+      alice.queue_items << Fabricate(:queue_item, position: 3)
+      alice.queue_items << Fabricate(:queue_item, position: 4)
+
       @alice_queue_item1 = alice.queue_items[0]
       @alice_queue_item2 = alice.queue_items[1]
       @alice_queue_item3 = alice.queue_items[2]
       @alice_queue_item4 = alice.queue_items[3]
-      binding.pry
     end
 
     it 'redirects to /my_queue (GET)' do
@@ -148,17 +144,18 @@ describe QueueItemsController do
 
     it 'updates one queue_item position' do
       orig_pos1 = @alice_queue_item1.position
-      post(:update_index, "queue_item_#{@alice_queue_item1.id}_position" => 2)
+      post(:update_index, "queue_item_#{@alice_queue_item1.id}_position" => 3)
       expect(@alice_queue_item1.reload.position).not_to eq(orig_pos1)
     end
 
     it 'updates two queue_item positions' do
       orig_pos1 = @alice_queue_item1.position
       orig_pos2 = @alice_queue_item2.position
-      post(:update_index, "queue_item_#{@alice_queue_item1.id}_position" => 2, "queue_item_#{@alice_queue_item2.id}_position" => 3)
+      post(:update_index, "queue_item_#{@alice_queue_item1.id}_position" => 3, "queue_item_#{@alice_queue_item2.id}_position" => 1)
       expect(@alice_queue_item1.reload.position).not_to eq(orig_pos1)
       expect(@alice_queue_item2.reload.position).not_to eq(orig_pos2)
     end
+
     it 'updates four queue_item positions' do
       orig_pos1 = @alice_queue_item1.position
       orig_pos2 = @alice_queue_item2.position
@@ -166,10 +163,10 @@ describe QueueItemsController do
       orig_pos4 = @alice_queue_item4.position
       post(
             :update_index,
-            "queue_item_#{@alice_queue_item1.id}_position" => 2,
-            "queue_item_#{@alice_queue_item2.id}_position" => 3,
-            "queue_item_#{@alice_queue_item3.id}_position" => 7,
-            "queue_item_#{@alice_queue_item4.id}_position" => 6
+            "queue_item_#{@alice_queue_item1.id}_position" => 9,
+            "queue_item_#{@alice_queue_item2.id}_position" => 6,
+            "queue_item_#{@alice_queue_item3.id}_position" => 2,
+            "queue_item_#{@alice_queue_item4.id}_position" => 3
       )
       expect(@alice_queue_item1.reload.position).not_to eq(orig_pos1)
       expect(@alice_queue_item2.reload.position).not_to eq(orig_pos2)
@@ -178,8 +175,9 @@ describe QueueItemsController do
     end
 
     it 'updates valid non-consecutive positions integers when there is one update' do
-      binding.pry
+
       orig_pos1 = @alice_queue_item1.position
+
       post(:update_index, "queue_item_#{@alice_queue_item1.id}_position" => 5)
 
       expect(@alice_queue_item1.reload.position).to eq(4)
@@ -188,10 +186,38 @@ describe QueueItemsController do
       expect(@alice_queue_item4.reload.position).to eq(3)
     end
 
-    it 'updates valid non-consecutive positions integers when there are two updates'
+    it 'updates valid non-consecutive positions integers when there are two updates' do
+      orig_pos1 = @alice_queue_item1.position
+      orig_pos2 = @alice_queue_item2.position
 
-    it 'updates valid non-consecutive positions integers when there are four updates'
+      post(:update_index, "queue_item_#{@alice_queue_item1.id}_position" => 5, "queue_item_#{@alice_queue_item2.id}_position" => 8)
 
+      expect(@alice_queue_item1.reload.position).to eq(3)
+      expect(@alice_queue_item2.reload.position).to eq(4)
+      expect(@alice_queue_item3.reload.position).to eq(1)
+      expect(@alice_queue_item4.reload.position).to eq(2)
+
+    end
+
+    it 'updates valid non-consecutive positions integers when there are four updates' do
+      orig_pos1 = @alice_queue_item1.position
+      orig_pos2 = @alice_queue_item2.position
+      orig_pos3 = @alice_queue_item3.position
+      orig_pos4 = @alice_queue_item4.position
+
+      post(
+        :update_index,
+        "queue_item_#{@alice_queue_item1.id}_position" => 5,
+        "queue_item_#{@alice_queue_item2.id}_position" => 7,
+        "queue_item_#{@alice_queue_item3.id}_position" => 9,
+        "queue_item_#{@alice_queue_item4.id}_position" => 11
+      )
+
+      expect(@alice_queue_item1.reload.position).to eq(1)
+      expect(@alice_queue_item2.reload.position).to eq(2)
+      expect(@alice_queue_item3.reload.position).to eq(3)
+      expect(@alice_queue_item4.reload.position).to eq(4)
+    end
 
     it 'renders queue_items#index template when an invalid position number is submitted (float instead of integer)' do
       orig_pos1 = @alice_queue_item1.position
@@ -204,9 +230,7 @@ describe QueueItemsController do
       post(:update_index, "queue_item_#{@alice_queue_item1.id}_position" => 2.5)
       expect(flash[:error]).to eq('You may only enter integers for queue positions')
     end
-    it 'handles non-unique position numbers'
-
 
   end
-
+# TODO: add validation of use of non-float numbers using transactions
 end
