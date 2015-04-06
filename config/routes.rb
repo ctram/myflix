@@ -8,7 +8,7 @@ Myflix::Application.routes.draw do
   get '/my_queue' => 'queue_items#index', as:'my_queue'
   post '/my_queue' => 'queue_items#update_index'
 
-  resources :users
+  resources :users, only: [:show]
   resources :queue_items, only: [:create, :destroy]
   resources :sessions, only: [:create, :destroy, :new]
 

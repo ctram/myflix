@@ -26,4 +26,9 @@ class Video < ActiveRecord::Base
       (total_rating.to_f/ num_reviews).round(1)
     end
   end
+
+  # Alias title to name
+  def title
+    name
+  end
 end

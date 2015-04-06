@@ -8,4 +8,8 @@ class User < ActiveRecord::Base
   validates :name_last, presence:true
   validates :email, presence: true, uniqueness:true
   validates :password, presence:true
+
+  def full_name
+    "#{name_first + ' ' + name_last}"
+  end
 end

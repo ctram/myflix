@@ -52,7 +52,9 @@
                   %strong= review.title
                   %hr
                   %span Rating: #{review.rating} / 5
-                  %p by #{review.user.name_first.capitalize + ' ' + review.user.name_last.capitalize}
+                  %p
+                    by
+                    = link_to("#{review.user.name_first.capitalize + ' ' + review.user.name_last.capitalize}", review.user)
                 .col-sm-8
                   %p= review.body
       - else
