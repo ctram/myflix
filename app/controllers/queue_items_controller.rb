@@ -20,7 +20,7 @@ class QueueItemsController < ApplicationController
 
       begin
         update_queue_items
-        binding.pry
+        
       rescue ActiveRecord::RecordInvalid
         flash[:error] = "Invalid position numbers"
         redirect_to my_queue_path
