@@ -17,25 +17,21 @@ class QueueItemsController < ApplicationController
       flash[:error] = "Updated positions must be an integer (not a float or letter or symbol, etc.)"
       render :index
     else
-      params[:queue_items].each do |queue_item|
-        QueueItem.find(queue_item[:id]).update(position: queue_item[:position])
+
+      begin
+        update_queue_items
+      rescue ActiveRecord::RecordInvalid
+        flash[:error] = "Invalid position numbers"
+        redirect_to my_queue_path
+        return
       end
 
-      # Ensures that all position numbers are consecutive.
-      current_user.queue_items.each_with_index do |queue_item, i|
-        queue_item.update(position: i + 1)
-      end
+      normalize_queue_item_positions
 
       redirect_to my_queue_path
     end
   end
 
-
-Source: show | on GitHub
-update_attributes(attributes)
-Link
-Alias for: update
-update_attributes!(attributes)
   def create
     video = Video.find(params[:video_id])
     queue_video(video)
@@ -50,10 +46,6 @@ update_attributes!(attributes)
   end
 
   private
-
-  def update_queue_items
-
-  end
 
   def queue_video(video)
     QueueItem.create(video: video, user: current_user, position: new_queue_item_position) unless current_user_already_queued_this_video?(video)
@@ -99,8 +91,19 @@ update_attributes!(attributes)
     end
   end
 
+  # Ensures that all position numbers are consecutive.
   def normalize_queue_item_positions
+    current_user.queue_items.each_with_index do |queue_item, i|
+      queue_item.update(position: i + 1)
+    end
+  end
 
+  def update_queue_items
+    ActiveRecord::Base.transaction do
+      params[:queue_items].each do |queue_item|
+        QueueItem.find(queue_item[:id]).update(position: queue_item[:position])
+      end
+    end
   end
 
 end
