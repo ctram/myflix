@@ -8,8 +8,6 @@ class QueueItemsController < ApplicationController
   # TODO: code update_index()
   def update_index
     # Assigns new positions for each queue_item
-
-
     if num_queue_items_of_current_user < params[:queue_items].count
       @queue_items = previous_queue_items
       flash[:error] = "You cannot modify another user's data."
@@ -32,6 +30,12 @@ class QueueItemsController < ApplicationController
     end
   end
 
+
+Source: show | on GitHub
+update_attributes(attributes)
+Link
+Alias for: update
+update_attributes!(attributes)
   def create
     video = Video.find(params[:video_id])
     queue_video(video)
@@ -46,6 +50,10 @@ class QueueItemsController < ApplicationController
   end
 
   private
+
+  def update_queue_items
+
+  end
 
   def queue_video(video)
     QueueItem.create(video: video, user: current_user, position: new_queue_item_position) unless current_user_already_queued_this_video?(video)
@@ -89,6 +97,10 @@ class QueueItemsController < ApplicationController
     params[:queue_items].map do |queue_item|
       QueueItem.find(queue_item[:id])
     end
+  end
+
+  def normalize_queue_item_positions
+
   end
 
 end
