@@ -23,9 +23,15 @@ class User < ActiveRecord::Base
   validates :email, presence: true, uniqueness:true
   validates :password, presence:true
 
-
-
   def full_name
-    "#{name_first + ' ' + name_last}"
+    "#{name_first.capitalize + ' ' + name_last.capitalize}"
+  end
+
+  def follows?(another_user)
+    following_relationships.map(&:leader).include?(another_user)
+  end
+
+  def can_follow?(another_user)
+    !(follows?(another_user) || self == another_user)
   end
 end
