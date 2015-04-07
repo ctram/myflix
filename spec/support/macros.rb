@@ -5,3 +5,7 @@ def sign_in(user=nil)
   fill_in 'Password', with: user.password
   click_button 'Sign in'
 end
+
+def set_current_user(user=nil)
+  session[:user_id] = (user || Fabricate(:user).id)
+end

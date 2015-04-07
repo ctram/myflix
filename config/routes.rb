@@ -10,9 +10,11 @@ Myflix::Application.routes.draw do
 
   post '/my_queue' => 'queue_items#update_index'
 
+
   resources :users
   resources :queue_items, only: [:create, :destroy]
   resources :sessions, only: [:create, :destroy, :new]
+  resources :relationships, only: [:destroy]
 
   resources :videos do
     collection do
