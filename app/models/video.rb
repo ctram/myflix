@@ -6,6 +6,8 @@ class Video < ActiveRecord::Base
   validates :name, presence: true
   validates :description, presence:true
 
+  # before_create :generate_token
+
   # returns an array of videos
   def self.search_by_title(term)
     matches = []
@@ -31,4 +33,14 @@ class Video < ActiveRecord::Base
   def title
     name
   end
+
+  # def to_param
+  #   token
+  # end
+
+  private
+
+  # def generate_token
+  #   token = SecureRandom.urlsafe_base64
+  # end
 end

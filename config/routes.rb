@@ -7,10 +7,12 @@ Myflix::Application.routes.draw do
   get '/sign_in' => 'sessions#new', as: 'sign_in'
   get '/my_queue' => 'queue_items#index', as:'my_queue'
   get '/people', to: 'relationships#index', as: 'people'
-
+  get 'forgot_password', to: 'forgot_passwords#new'
+  get 'forgot_password_confirmation', to: 'forgot_passwords#confirm'
+  
   post '/my_queue' => 'queue_items#update_index'
 
-
+  resources :forgot_passwords, only: [:create]
   resources :users
   resources :queue_items, only: [:create, :destroy]
   resources :sessions, only: [:create, :destroy, :new]

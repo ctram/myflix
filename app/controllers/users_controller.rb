@@ -5,15 +5,22 @@ class UsersController < ApplicationController
   end
 
   def create
+
     if logged_in?
       redirect_to videos_path
     else
       @user = User.new(params_user)
+
       if @user.save
+
+        AppMailer.send_welcome_email(@user).deliver
+
         flash[:notice] = 'Successfully registered!'
         log_in(@user)
         redirect_to home_path
       else
+
+        
         render :new
       end
     end
