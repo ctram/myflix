@@ -23,6 +23,8 @@ class User < ActiveRecord::Base
   validates :email, presence: true, uniqueness:true
   validates :password, presence:true
 
+  before_create :generate_token
+
   def full_name
     "#{name_first.capitalize + ' ' + name_last.capitalize}"
   end
@@ -34,4 +36,11 @@ class User < ActiveRecord::Base
   def can_follow?(another_user)
     !(follows?(another_user) || self == another_user)
   end
+
+  private
+
+  def generate_token
+    self.token = SecureRandom.urlsafe_base64
+  end
+
 end
