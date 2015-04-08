@@ -13,12 +13,14 @@ Myflix::Application.routes.draw do
 
   post '/my_queue' => 'queue_items#update_index'
 
-  resources :password_resets, only: [:show]
+  resources :password_resets, only: [:show, :create]
   resources :forgot_passwords, only: [:create]
   resources :users
   resources :queue_items, only: [:create, :destroy]
   resources :sessions, only: [:create, :destroy, :new]
   resources :relationships, only: [:destroy, :create]
+  resources :categories
+  resources :reviews
 
   resources :videos do
     collection do
@@ -27,6 +29,4 @@ Myflix::Application.routes.draw do
     resources :reviews
   end
 
-  resources :categories
-  resources :reviews
 end
