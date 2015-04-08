@@ -26,7 +26,7 @@ describe PasswordResetsController do
 
   describe 'POST create' do
     context 'with valid token' do
-      it 'redirects to the sign in page'
+      it 'redirects to the sign in page' do
         alice = Fabricate(:user, password: 'old_password')
         alice.update_column(:token, '12345')
         post :create, token: '12345', password: 'new_password'
