@@ -13,6 +13,7 @@ Myflix::Application.routes.draw do
 
   post '/my_queue' => 'queue_items#update_index'
 
+  resources :invitations, only:[:new, :create]
   resources :password_resets, only: [:show, :create]
   resources :forgot_passwords, only: [:create]
   resources :users

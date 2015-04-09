@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
 
   has_many :reviews
   has_many :queue_items, -> { order(:position) }
+  has_many :invitations
 
   # A user has many relationships where he is the follower.
   # Since User calls has_many(), the foreign key is located
