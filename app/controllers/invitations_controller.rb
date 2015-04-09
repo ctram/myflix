@@ -6,9 +6,15 @@ class InvitationsController < ApplicationController
   end
 
   def create
-    invitation = Invitation.create(invitation_params.merge!(inviter_id: current_user.id))
-    AppMailer.send_invitation_email(invitation).deliver
-    redirect_to new_invitation_path
+    @invitation = Invitation.new(invitation_params.merge!(inviter_id: current_user.id))
+    if @invitation.save
+      AppMailer.send_invitation_email(@invitation).deliver
+      flash[:success] = "You have successfully invited #{@invitation.recipient_name} to MyFlix!"
+      redirect_to new_invitation_path
+    else
+      flash[:error] = "There was an error, your invitation did not go out."
+      render :new
+    end
   end
 
   private
