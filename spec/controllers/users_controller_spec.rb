@@ -91,5 +91,41 @@ describe UsersController do
       end
 
     end
+
+    describe "GET show" do
+      it_behaves_like 'requires sign in' do
+        let(:action) {get :show, id: 3}
+      end
+
+      it 'sets @user' do
+        set_current_user
+        alice = Fabricate(:user)
+        get :show, id: alice.id
+        expect(assigns(:user)).to eq(alice)
+      end
+
+    end
+
+    describe 'GET new_with_invitation_token' do
+      it 'renders the :new view template' do
+        invitation = Fabricate(:invitation)
+        get :new_with_invitation_token, token: invitation.token
+        expect(response).to render_template :new
+      end
+
+      it "sets @user with recipient's email" do
+        invitation = Fabricate(:invitation)
+        get :new_with_invitation_token, token: invitation.token
+        expect(assigns(:user).email).to eq(invitation.recipient_email)
+      end
+
+      it 'redirects to expired token page for invalid tokens' do
+        get :new_with_invitation_token, token: 'asdasd'
+        expect(response).to redirect_to expired_token_path
+      end
+
+    end
+
+
   end
 end
