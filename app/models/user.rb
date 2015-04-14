@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include Tokenable
   has_secure_password
 
   has_many :reviews
@@ -23,8 +24,6 @@ class User < ActiveRecord::Base
   validates :name_last, presence:true
   validates :email, presence: true, uniqueness:true
   validates :password, presence:true
-
-  before_create :generate_token
 
   def full_name
     "#{name_first.capitalize + ' ' + name_last.capitalize}"

@@ -3,6 +3,7 @@
 describe UsersController do
 
   after {ActionMailer::Base.deliveries.clear}
+  
   context 'with authenticated user logged in' do
 
     before do
