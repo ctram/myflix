@@ -31,7 +31,7 @@
                     = button_to "Play", nil, class: "btn btn-default"
                   %td
                     -# Rating
-                    = queue_item.rating
+                    = select_tag('queue_items[][rating]', option_select_rating_drop_down(queue_item.rating), include_blank: true)
                   %td
                     -# Genre
                     = link_to("#{queue_item.category.name}", queue_item.category)

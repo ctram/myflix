@@ -8,8 +8,6 @@ class QueueItemsController < ApplicationController
   # TODO: code update_index()
   def update_index
     # Assigns new positions for each queue_item
-
-
     if num_queue_items_of_current_user < params[:queue_items].count
       @queue_items = previous_queue_items
       flash[:error] = "You cannot modify another user's data."
@@ -19,14 +17,17 @@ class QueueItemsController < ApplicationController
       flash[:error] = "Updated positions must be an integer (not a float or letter or symbol, etc.)"
       render :index
     else
-      params[:queue_items].each do |queue_item|
-        QueueItem.find(queue_item[:id]).update(position: queue_item[:position])
+
+      begin
+        update_queue_items
+        
+      rescue ActiveRecord::RecordInvalid
+        flash[:error] = "Invalid position numbers"
+        redirect_to my_queue_path
+        return
       end
 
-      # Ensures that all position numbers are consecutive.
-      current_user.queue_items.each_with_index do |queue_item, i|
-        queue_item.update(position: i + 1)
-      end
+      normalize_queue_item_positions
 
       redirect_to my_queue_path
     end
@@ -88,6 +89,21 @@ class QueueItemsController < ApplicationController
   def previous_queue_items
     params[:queue_items].map do |queue_item|
       QueueItem.find(queue_item[:id])
+    end
+  end
+
+  # Ensures that all position numbers are consecutive.
+  def normalize_queue_item_positions
+    current_user.queue_items.each_with_index do |queue_item, i|
+      queue_item.update(position: i + 1)
+    end
+  end
+
+  def update_queue_items
+    ActiveRecord::Base.transaction do
+      params[:queue_items].each do |queue_item|
+        QueueItem.find(queue_item[:id]).update(position: queue_item[:position], rating: queue_item[:rating])
+      end
     end
   end
 
