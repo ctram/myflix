@@ -24,6 +24,36 @@ describe UsersController do
         expect(response).to redirect_to(videos_path)
       end
 
+      context 'from invitation' do
+
+        it 'makes the user follow the inviter' do
+          session[:user_id] = nil
+          alice = Fabricate(:user)
+          invitation = Fabricate(:invitation, inviter: alice, recipient_email: 'joe@example.com')
+          post :create, user: {email: 'joe@example.com', password: 'password', name_first: 'Joe', name_last: 'Smith'}, invitation_token: invitation.token
+          joe = User.where(email: 'joe@example.com').first
+          expect(joe.follows?(alice)).to be_true
+        end
+
+        it 'makes the inviter follow the user' do
+          session[:user_id] = nil
+          alice = Fabricate(:user)
+          invitation = Fabricate(:invitation, inviter: alice, recipient_email: 'joe@example.com')
+          post :create, user: {email: 'joe@example.com', password: 'password', name_first: 'Joe', name_last: 'Smith'}, invitation_token: invitation.token
+          joe = User.where(email: 'joe@example.com').first
+          expect(alice.follows?(joe)).to be_true
+        end
+
+        it 'expires the invitation upon acceptance' do
+          session[:user_id] = nil
+          alice = Fabricate(:user)
+          invitation = Fabricate(:invitation, inviter: alice, recipient_email: 'joe@example.com')
+          post :create, user: {email: 'joe@example.com', password: 'password', name_first: 'Joe', name_last: 'Smith'}, invitation_token: invitation.token
+          expect(Invitation.first.token).to be_nil
+        end
+
+      end
+
     end
 
   end
@@ -117,6 +147,12 @@ describe UsersController do
         invitation = Fabricate(:invitation)
         get :new_with_invitation_token, token: invitation.token
         expect(assigns(:user).email).to eq(invitation.recipient_email)
+      end
+
+      it 'sets @invitation_token' do
+        invitation = Fabricate(:invitation)
+        get :new_with_invitation_token, token: invitation.token
+        expect(assigns(:invitation_token)).to eq(invitation.token)
       end
 
       it 'redirects to expired token page for invalid tokens' do
