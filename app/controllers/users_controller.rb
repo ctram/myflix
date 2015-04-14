@@ -12,7 +12,7 @@ class UsersController < ApplicationController
       @user = User.new(params_user)
       if @user.save
         handle_invitation
-        AppMailer.send_welcome_email(@user).deliver
+        AppMailer.delay.send_welcome_email(@user)
         flash[:notice] = 'Successfully registered!'
         log_in(@user)
         redirect_to home_path

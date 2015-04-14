@@ -13,6 +13,7 @@ gem 'pg'
 gem 'bcrypt'
 gem 'fabrication'
 gem 'faker'
+gem 'sidekiq'
 
 
 group :development do
