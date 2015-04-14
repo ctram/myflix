@@ -9,7 +9,7 @@ Myflix::Application.routes.draw do
   get '/people', to: 'relationships#index', as: 'people'
   get 'forgot_password', to: 'forgot_passwords#new'
   get 'forgot_password_confirmation', to: 'forgot_passwords#confirm'
-  get 'expired_token', to: 'password_resets#expired_token'
+  get 'expired_token', to: 'static_pages#expired_token'
   get 'register/:token', to: 'users#new_with_invitation_token', as: 'register_with_token'
 
   post '/my_queue' => 'queue_items#update_index'
