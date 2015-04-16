@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 # ruby '2.1.1'
 ruby '2.1.3'
 
+gem 'rack-timeout'
+gem 'unicorn'
 gem 'bootstrap-sass'
 gem 'coffee-rails'
 gem 'rails', '4.1.1'
