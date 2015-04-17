@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 # ruby '2.1.1'
 ruby '2.1.3'
 
+gem 'bootstrap_form'
 gem 'rack-timeout'
 gem 'unicorn'
 gem 'bootstrap-sass'
